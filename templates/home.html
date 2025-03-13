@@ -1,0 +1,635 @@
+{% extends "root.html" %}
+{% block style %}
+
+/* Page container */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: var(--bg-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Welcome message styling */
+.welcome-message {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.welcome-message h1 {
+    font-size: 2.5em;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.welcome-message p {
+    font-size: 1.1em;
+    color: var(--text-color);
+}
+
+/* Box container */
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Product box styling */
+.box {
+    background-color: var(--bg-color);
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    width: calc(33.333% - 20px);
+    padding: 20px;
+    text-align: center;
+    transition: box-shadow 0.3s, transform 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Product images */
+.box img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+/* Product titles */
+.box h2 {
+    font-size: 1.5em;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* Product description */
+.box p {
+    font-size: 1em;
+    color: var(--text-color);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+/* Add to Cart button */
+.box button {
+    background-color:var(--bg-color); /* Premium blue */
+    color: var(--text-color);
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.box button:hover {
+    background-color:var(--bg-color);
+    transform: scale(1.05);
+}
+
+/* Header Carousel */
+.header-carousel .owl-carousel-item {
+    position: relative;
+    min-height: 300px; /* Reduced height */
+}
+
+.header-carousel .owl-carousel-item img {
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.header-carousel .owl-nav {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+}
+
+.header-carousel .owl-nav .owl-prev,
+.header-carousel .owl-nav .owl-next {
+    margin: 5px 0;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    background: transparent;
+    border: 1px solid #FFFFFF;
+    font-size: 16px;
+    transition: .3s;
+}
+
+.header-carousel .owl-nav .owl-prev:hover,
+.header-carousel .owl-nav .owl-next:hover {
+    background: var(--link-color);
+    border-color: var(--text-color);
+}
+
+/* Text Overlay Styling */
+.text-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    background: var(--bg-color);
+    padding: 20px;
+    opacity: 0.7;
+}
+@media (max-width: 578.98px)
+{
+    .text-overlay{
+        width:200px;
+    }
+}
+/* Typography */
+h1 {
+    font-size: 2rem; /* Reduced size */
+    margin-bottom: 0.5rem;
+}
+
+h5 {
+    font-size: 1rem; /* Reduced size */
+    margin-bottom: 0.5rem;
+}
+
+p {
+    font-size: 0.9rem; /* Reduced size */
+    margin-bottom: 1rem;
+}
+
+/* Button Styling */
+.btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem; /* Reduced size */
+}
+
+.container {
+    padding: 20px;
+    background-color:var(--bg-color);
+}
+
+.welcome-message {
+    text-align: center;
+    background-color: var(--bg-color); /* Dark gray box */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+}
+.welcome-message h1 {
+    color: var(--text-color); /* Makes the welcome heading white */
+}
+
+.box-container {
+    display: flex;  
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Individual Boxes */
+.box {
+    margin-top:10px;
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #333; /* Dark border */
+    border-radius: 10px;
+    background-color: var(--bg-color); /* Dark gray box */
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+}
+
+/* Button Styling */
+.box button {
+    background-color: var(--text-color); /* Orange button */
+    color: var(--bg-color);
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.box button:hover {
+    background-color: var(--link-color); /* Darker orange */
+}
+
+/* Make boxes stack vertically on small screens */
+@media (max-width: 428px) {
+    .box-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .box {
+        width: 90%;
+        max-width: none;
+    }
+}
+
+.text-white {
+    --bs-text-opacity: 1;
+    color: rgba(var(--text-color), var(--bs-text-opacity)) !important;
+}
+.btn:hover {
+    background-color: var(--link-color) !important;
+    border-color:var(--link-color) !important;
+}
+.btn{
+    background-color:var(--text-color);
+    border-color:var(--text-color);
+    color:var(--bg-color);
+    margin-bottom:10px;
+}
+
+{% comment %} card css {% endcomment %}
+.product-card {
+    background: #f8f8ff; /* Off-White card background */
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    border: 1px solid rgba(212, 175, 55, 0.5); /* Semi-Transparent Gold Border */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    padding-top: 20px;  /* Add padding to account for swirls*/
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Elegant Gold Frame */
+.gold-frame {
+    position: absolute;
+    top: 0px;   /* Adjust top */
+    left: 15px;
+    right: 15px;
+    bottom: 0px;    /*Adjust bottom*/
+    pointer-events: none; /* Ensures elements behind remain clickable */
+    display: flex;    /* Use flex to ensure borders stretch from end-to-end and that the lines appear outside the card image/content and can not interfere with content again*/
+    border-radius: 15px;
+    border: 1.5px solid #d4af37;
+    overflow: hidden;   /*This will automatically crop overflow (so even if the image content spills outside borders, the frame remains constant and is preserved.*/
+    z-index: 1;          /*Position below product elements, on the same level or above product card, by manipulating order from product, frame/container -> highest z will mean most visible on z-axis, covering elements beneath*/
+
+}
+
+ .gold-frame::before,
+.gold-frame::after {
+    content: "";
+    position: absolute;
+    width: 25px;           /* Reduced width for subtlety */
+    height: 12px;          /* Reduced height for subtlety */
+    border: 1px solid #d4af37; /*Gold frame around swirls*/
+    border-radius: 50px;      /*Curve shape*/
+    z-index: -1;               /*Force before + after swirl elements, inside frame (i.e beneath border)*/
+    box-sizing: border-box;       /*Include border and padding*/
+}
+.gold-frame::before {
+    top: -6px;                  /*Half swirl elements size, move back outside, to make position seamless outside frame top border. Positioned absolute so that you don't occupy line, and position where need be*/
+    left: 50%;
+    transform: translateX(-50%);   /*Set center point and allow relative to scroll/expand within parent without offset*/
+}
+.gold-frame::after {
+    bottom: -6px;           /*Like top counterpart; inverse top elements on x and y to maintain absolute equal distances and ensure is visually pleasing.*/
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+/* Product Image */
+.product-image {
+    padding:5px;
+    max-height: 250px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px; /* Slightly more rounded corners */
+    margin-top: 0px;   /* Zero out so frame does not interfere with top*/
+    margin-bottom: 10px;
+    z-index: 2;             /*Force Product over lower Z-order frame element above product container on Z*/
+}
+
+/* Product Title */
+.product-title {
+    font-size: 24px; /* Larger title */
+    font-weight: 600;  /* Semi-Bold Font Weight */
+    color:  var(--title-color);
+    margin-top: 10px;
+    font-family: 'Georgia', serif;
+    z-index: 2;             
+}
+
+/* Product Description */
+.product-description {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 15px;
+  padding: 0 15px;
+  z-index: 2;             /* Z set with higher level force content relative to other overlapping frames (beneath elements with a forced high lvl order, below others).*/
+
+}
+
+/* Product Price */
+.product-price {
+    font-size: 22px;  /* Larger price */
+    color: #c0392b;    /* Slightly darker red */
+    font-weight: bold;
+    margin-bottom: 15px;
+    z-index: 2;             /*Set Z*/
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: space-around; /* Even spacing */
+    align-items: center;
+    padding: 15px;
+    border-top: 1px solid #eee; /* Subtle Separator Line */
+    z-index: 2;             /* Z (Ensure buttons aren't affected)*/
+}
+
+/* Add & Wishlist Buttons */
+.btn-icon {
+    background: none;
+    border: 1.5px solid #d4af37; /* Thinner border */
+    color: #d4af37;
+    border-radius: 10px;    /* Rounded Corners */
+    padding: 8px 16px;
+    font-size: 16px;       /* Adjusted font size */
+    transition: all 0.3s ease;
+    font-weight: 500;  /* Medium font weight */
+    z-index: 2;             /*No Z here, not necessary for the overall content style in card*/
+}
+
+.btn-icon:hover {
+    background: #d4af37;
+    color: white;
+}
+
+/* Better Alignment for Buttons */
+.btn-add {
+    flex-grow: 1;
+    margin-right: 5px; /* Small spacing */
+    z-index: 2;            /*Ensure is still a usable click button*/
+}
+
+/* Wishlist Heart Icon */
+.btn-wishlist {
+    margin-left: 5px;   /* Small spacing */
+    z-index: 2;            /*Buttons*/
+}
+
+
+{% endblock %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container-fluid p-0 mb-4"  >
+        <div class="owl-carousel header-carousel position-relative" >
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{% static 'image/GOND.jpg' %}" style='height:600px;'>
+                <div class="text-overlay">
+                    <div class="">
+                        
+                            <div class="col-sm-10 col-lg-8">
+                                <h5 class="text-primary text-uppercase mb-2 animate__animated animate__slideInDown">Sweets</h5>
+                                <h1 class="text-white animate__animated animate__slideInDown">Gund laddu</h1>
+                                <p class="text-white mb-3 pb-2">Soft, rich, and packed with goodness, our Gond Ke Laddus are made with pure ghee, edible gum, and wholesome ingredients. Perfect for boosting strength, they are a traditional treat you’ll love to enjoy, especially in winters.</p>
+                                <a href="#" class="btn btn-primary me-2 animate__animated animate__slideInLeft">Buy now</a>
+                                <a href="#" class="btn btn-light animate__animated animate__slideInRight">more</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{% static "/image/gajer.jpg" %}" alt="" style= 'height:600px;'>
+                <div class="text-overlay">
+                    <div class="">
+                        
+                            <div class="col-sm-10 col-lg-8">
+                                <h5 class="text-primary text-uppercase mb-2 animate__animated animate__slideInDown">Sweets</h5>
+                                <h1 class="text-white animate__animated animate__slideInDown">Gajer halwa</h1>
+                                <p class="text-white mb-3 pb-2">Savor the timeless delight of Gajar Ka Halwa, made with fresh red carrots, creamy milk, and a hint of ghee. Cooked slowly and topped with crunchy nuts, it’s the perfect blend of taste and tradition.</p>
+                                <a href="#" class="btn btn-primary me-2 animate__animated animate__slideInLeft">Buy now</a>
+                                <a href="#" class="btn btn-light animate__animated animate__slideInRight">More</a>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{% static "image/utensil.jpg" %}" alt="" style= 'height:600px;'>
+                <div class="text-overlay">
+                    <div class="">
+                        
+                            <div class="col-sm-10 col-lg-8">
+                                <h5 class="text-primary text-uppercase mb-2 animate__animated animate__slideInDown">wooden items</h5>
+                                <h1 class="text-white animate__animated animate__slideInDown">Wooden utensils</h1>
+                                <p class="text-white mb-3 pb-2">Elevate your kitchen with our handcrafted Chakla Belan set. Designed for smooth, effortless rolling, it combines style and functionality for a premium cooking experience.</p>
+                                <a href="#" class="btn btn-primary me-2 animate__animated animate__slideInLeft">Buy now</a>
+                                <a href="#" class="btn btn-light animate__animated animate__slideInRight">More</a>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="owl-carousel-item position-relative">
+                <img class="img-fluid" src="{% static "image/Besan Ke Laddu.png" %}" alt="" style= 'height:600px;'>
+                <div class="text-overlay">
+                    <div class="">
+                        
+                            <div class="col-sm-10 col-lg-8">
+                                <h5 class="text-primary text-uppercase mb-2 animate__animated animate__slideInDown">Sweets</h5>
+                                <h1 class="text-white animate__animated animate__slideInDown">Bassan laddu</h1>
+                                <p class="text-white mb-3 pb-2">Delight in the nutty, golden flavor of our Besan Ke Laddus, made with fine gram flour, pure ghee, and sugar. Each bite melts in your mouth, leaving a rich, satisfying taste.</p>
+                                <a href="#" class="btn btn-primary me-2 animate__animated animate__slideInLeft">Buy now</a>
+                                <a href="#" class="btn btn-light animate__animated animate__slideInRight">More</a>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <!-- Welcome Message -->
+        <div class="welcome-message">
+            <h1>Welcome to Our Family Business!</h1>
+            <p>Our business has been passed down through generations, originally founded by my grandfather. We take pride in delivering authentic, high-quality products. Explore our offerings of pure oils, traditional sweets, and handcrafted wooden utensils, all made with care and tradition.</p>
+        </div>
+    
+        <div class="box-container">
+            <!-- First Box: Sweets -->
+            <div class="box">
+                <img src="{% static "/image/gajer.jpg" %}" alt="Assorted Sweets">
+                <h2>Sweets</h2>
+                <p>Indulge in our traditional sweets, crafted with love and authentic recipes handed down through generations. Perfect for celebrations or a sweet treat any day.</p>
+                <a href="#">
+                <button>Add to Cart</button></a>
+            </div>
+            
+            <!-- Second Box: Wooden Utensils -->
+            <div class="box">
+                <img src="{% static "/image/utensils.jpg" %}" alt="Wooden Utensils">
+                <h2>Wooden Utensils</h2>
+                <p>Our wooden utensils are made from high-quality, sustainably sourced wood, designed to bring a natural touch to your kitchen. Durable and crafted with care.</p>
+                <a href="#">
+                <button>Add to Cart</button></a>
+            </div>
+            
+            <!-- Third Box: Mustard Oil -->
+            <div class="box">
+                <img src="{% static "image/oil.png" %}" alt="Mustard Oil">
+                <h2>Mustard oil</h2>
+                <p>Pure mustard oil, cold-pressed to retain its natural flavor and health benefits. A staple in many kitchens, our mustard oil is perfect for cooking and massages.</p>
+                <a href="#">
+                <button>Add to Cart</button></a>
+            </div>
+        </div>
+    </div>
+    {% if not products %}
+    <div class="container text-center my-5">
+        <p>The server is down.
+            we are working on it
+        </p>
+        <img src="static/image/server down.png" alt="Server Down" class="img-fluid" style="max-width: 100%; height: auto;">
+    {% else %}
+    {% load static %}
+    <div class="container" style="background-color: var(--card-bg);">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-center">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="product-card" style="background-color: var(--bg-color);">
+                        <div class="gold-frame"></div>
+                        <img src="{% static 'image/' %}{{ product.id }}.png"
+                             id="product-image-{{ product.id }}"
+                             alt="{{ product.product_name }}"
+                             class="product-image"
+                             data-product-type="{{ product.item_type }}" >
+                        <h5 class="product-title" >{{ product.product_name }}</h5>
+                        <p class="product-description" style="color: var(--text-color);">{{ product.details|truncatewords:10 }}</p>
+                        <p class="product-price">₹{{ product.price }}</p>
+                        <div class="action-buttons">
+                            <button class="btn-icon btn-add" onclick="addToCart('{{ product.id }}')"> 
+                                <i class="fas fa-plus"></i> ADD TO CART
+                            </button> 
+                            <button class="btn-icon btn-wishlist"><i class="fas fa-heart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endif %}
+
+{% endblock %}
+
+
+
+{% block title %}
+Home
+{% endblock title %}
+
+
+
+{% block script %}
+<!-- Include jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Include Owl Carousel CSS and JS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+$(document).ready(function(){
+    if ($(".owl-carousel").length) { // Check if the carousel element exists
+        $(".owl-carousel").owlCarousel({
+            items: 1,
+            loop: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            nav: true,
+            dots: false,
+            navText: [
+                "<div class='owl-prev'>&lt;</div>",
+                "<div class='owl-next'>&gt;</div>"
+            ]
+        });
+    } else {
+        console.warn("Owl carousel element not found. Please ensure the HTML structure is correct.");
+        
+    }
+});    
+
+function addToCart(productId) {
+    fetch(`/Add_to_cart/${productId}`, { 
+        method: 'POST', 
+        headers: { 
+            'X-CSRFToken': getCSRFToken(),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(`Item cart status updated! New status: ${data.new_status}`);
+
+        // Apply the scale-up effect to the cart icon
+        let cartIcon = document.getElementById("cart-icon");
+        if (cartIcon) {
+            cartIcon.classList.add("scale-up");
+
+            // Remove the scale-up effect after 0.5s
+            setTimeout(() => {
+                cartIcon.classList.remove("scale-up");
+            }, 500);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+// Function to get CSRF token from cookie (Django security)
+function getCSRFToken() {
+    let cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+        let [name, value] = cookie.trim().split('=');
+        if (name === 'csrftoken') return value;
+    }
+    return null;
+}
+
+
+</script>
+{% endblock script %}

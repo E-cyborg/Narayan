@@ -1,0 +1,128 @@
+{% extends "root.html" %}
+{% block title %}
+Team{% endblock title %}
+{% block content %}
+<!-- Main Container for Both Sections -->
+ {% load static %}
+<div class="container py-5">
+    <div class="row">
+        
+        
+        <!-- Team Section Column -->
+        <div class="col-lg-8 col-md-12">
+            <div class="text-center wow fadeInUp mb-4" data-wow-delay="0.1s">
+                <h2>Instructors</h2>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-contact-center">
+                <!-- Team Member 1 -->
+                <div class="col">
+                    <div class="team-item bg-light">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{% static "image/kinshuk.jpg" %}" alt="Kinshuk" style="width:100%; height:auto;">
+                        </div>
+                        <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                            <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                <a class="btn btn-sm-square btn-primary mx-1" href="https://github.com/E-cyborg"><i class="fab fa-github"></i></a>
+                                <a class="btn btn-sm-square btn-primary mx-1" href="https://www.instagram.com/_kinshuk_jangra/"><i class="fab fa-instagram"></i></a>
+                            </div>
+                        </div>
+                        <div class="text-center p-4">
+                            <h5 class="mb-0">Kinshuk</h5>
+                            <small>Leader</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Message Form Column -->
+        <div class="col-lg-4 col-md-12 mb-4">
+            <div class="messages bg-light p-4 rounded shadow mx-auto">
+                <form method="POST" action="#">
+                    <h2 class="text-center mb-4">Message us</h2>
+                    {% if usr %}
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="email" value="{{ usr.email }}" class="form-control" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">User name:</label>
+                            <input type="text" id="username" name="username" value="{{ usr.username }}" class="form-control" readonly>
+                        </div>
+                    {% else %}
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="email" value="{{ mail }}" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">User name:</label>
+                            <input type="text" id="username" name="username" value="{{ user }}" class="form-control" placeholder="Enter user name" required>
+                        </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message:</label>
+                        <textarea id="message" name="message" class="form-control" rows="3" placeholder="Enter your message" required>{{ pass_w }}</textarea>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Send Message" class="btn btn-primary">
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+{% block style %}
+.profile-img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.overflow-hidden {
+    overflow: hidden !important;
+    justify-content: center;
+    display: flex;
+}
+
+.messages {
+    max-width: 100%;
+    margin-top: 50px;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+}
+
+.messages h2 {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.messages .form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.messages input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.team-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'root.html' %}
+
+{% block content %}
+    <div class="user-details">
+        <h2>Welcome, {{ user.username }}!</h2>
+        <p>Email: {{ user.email }}</p>
+        <p>Registered on: {{ user.registered_on}}</p>
+    </div> 
+    <div class='login'>
+        <a href="{% url "logout" %}">Log out</a>
+    </div>
+{% endblock %}
+
+
+
+
+{% block title %}
+Hello {{ user.username }}
+{% endblock title %}
+
+
+
+
+
+
+
+
+{% block style %}
+
+
+/* Animation for notifications */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+{% endblock style %}

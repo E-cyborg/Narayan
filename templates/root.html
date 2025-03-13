@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+    rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+    crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+
+    <style>
+       
+
+        {% block style %}
+        {% endblock style %}
+    </style>
+</head>
+<body>
+
+    {% comment %} Navbar {% endcomment %}
+    <nav class="navbar navbar-expand-lg sticky-top" style="background-color: var(--bg-color);
+     background-image: url('{% static "image/ind_flag.webp" %}');
+">
+
+            <!-- Navbar Brand (Left Aligned) -->
+            <a class="navbar-brand  ms-lg-5 ms-1" href="{% url "home" %}"><strong style="color:var(--text-color)">Narayan</strong></a>
+            
+            <!-- Toggler Button for Mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <!-- Centered Navbar Items -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <button id="theme-toggle" class="btn theme-btn ms-3 m-2">
+                        🌙
+                    </button>                    
+        
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url "home" %}">Home <span class="visually-hidden">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Items</a>
+                            <div class="dropdown-menu fade-down m-0" style="background-color: rgba(102,102,102,0.2);">
+                                <a href="" class="dropdown-item"><strong>Oil</strong></a>
+                                <a href="" class="dropdown-item"><strong>Sweets</strong></a>
+                                <a href="" class="dropdown-item"><strong>Wooden items</strong></a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url "cart" %}" class="nav-item nav-link">
+                            <img id="cart-icon" src="{% static "/image/cart.png" %}" alt="Cart" class="cart">
+                        </a>
+                    </li>
+                    
+                    <a href="" class="nav-item nav-link">
+                        <img src={% static "image/favourite.png" %} alt="contact" class="cart">
+                    </a> 
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                            <div class="login">
+                                <a href="{% url "user_dashboard" %}">User</a>
+                            </div>
+                        {% else %}
+                            <div class="login">
+                                <a href="{% url "login" %}">Log in</a>
+                            </div>
+                        {% endif %}
+                    </li>
+                </ul>
+        </div>
+    </nav>
+    
+    
+    <main>
+        {% if messages %}
+            <div class="notification-container">
+                {% for message in messages %}
+                    <div class="notification">
+                        <p>{{ message }}</p>
+                        <button class="close-btn" onclick="this.parentElement.style.display='none'">X</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; Kinshuk |
+            <a href="https://github.com/E-cyborg" target="_blank" style="color: white;">Contact Us</a>
+        </p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" 
+    crossorigin="anonymous"></script>
+    <script>
+        //notification auto delete
+        document.querySelectorAll('.notification').forEach(function(notification) {
+            // Set a timeout to remove the notification after 10 seconds (10000 ms)
+            setTimeout(function() {
+                notification.style.display = 'none';  // Hide the notification
+            }, 10000);  // 10 seconds delay
+        });
+
+
+        //theme button js
+        const toggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Check localStorage for theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            toggleButton.classList.remove('btn-outline-dark');
+            toggleButton.classList.add('btn-outline-light');
+            toggleButton.innerHTML = "☀️";
+        }
+
+        // Toggle theme on button click
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                toggleButton.classList.remove('btn-outline-dark');
+                toggleButton.classList.add('btn-outline-light');
+                toggleButton.innerHTML = "☀️";
+            } else {
+                localStorage.setItem('theme', 'light');
+                toggleButton.classList.remove('btn-outline-light');
+                toggleButton.classList.add('btn-outline-dark');
+                toggleButton.innerHTML = "🌙";
+            }
+        });
+        
+    </script>
+    {% block script %}{% endblock script %}
+</body>
+</html>

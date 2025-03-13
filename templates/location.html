@@ -1,0 +1,87 @@
+{% extends "root.html" %}
+
+{% block title %}
+Product Details
+{% endblock title %}
+
+{% block content %}
+    <div class="product-container">
+        <!-- Product Name and Brand -->
+        <h1>{{ product.name }}</h1>
+        <p><strong>Brand:</strong> {{ product.brand }}</p>
+        
+        <!-- Product Images Carousel -->
+        <div class="product-images">
+            {% for image in product.images %}
+                <img src="{{ url_for('static', filename=image) }}" alt="{{ product.name }} image" class="product-image">
+            {% endfor %}
+        </div>
+        
+        <!-- Product Rating and Reviews -->
+        <div class="product-rating">
+            <p><strong>Rating:</strong> {{ product.rating }} / 5 ({{ product.review_count }} reviews)</p>
+        </div>
+        
+        <!-- Product Price with Discount and Currency -->
+        <div class="product-price">
+            <p><strong>Price:</strong> {{ product.currency }} {{ product.price | round(2) }}</p>
+            {% if product.original_price > product.price %}
+                <p><strong>Original Price:</strong> <s>{{ product.currency }} {{ product.original_price | round(2) }}</s></p>
+                <p class="discount">Discount: {{ product.discount_percentage }}% off</p>
+            {% endif %}
+        </div>
+        
+        <!-- Product Stock Information -->
+        <p><strong>Stock:</strong> {{ product.stock }} available</p>
+
+        <!-- Product Specifications -->
+        <div class="product-specifications">
+            <h3>Specifications:</h3>
+            <ul>
+                {% for spec, value in product.specifications.items() %}
+                    <li><strong>{{ spec }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Product Description -->
+        <div class="product-description">
+            <h3>Description:</h3>
+            <p>{{ product.description }}</p>
+        </div>
+
+        <!-- Customer Reviews -->
+        <div class="product-reviews">
+            <h3>Customer Reviews:</h3>
+            {% for review in product.reviews %}
+                <div class="review">
+                    <p><strong>{{ review.user_name }} ({{ review.date }})</strong></p>
+                    <p>Rating: {{ review.rating }} / 5</p>
+                    <p>{{ review.text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="product-actions">
+            <button>Add to Cart</button>
+            <button>Buy Now</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block style %}
+<style>
+    .product-title {
+        font-weight: 700;
+        font-size: 1.8em;
+    }
+    .carousel-item img {
+        object-fit: cover;
+        height: 500px;
+    }
+    .review {
+        background-color: #f9f9f9;
+    }
+</style>
+{% endblock %}

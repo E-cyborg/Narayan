@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Mode Toggle</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: white;
+            --text-color: black;
+            --card-bg: #f8f9fa;
+        }
+
+        .dark-mode {
+            --bg-color: #212529;
+            --text-color: white;
+            --card-bg: #343a40;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <button id="theme-toggle" class="btn btn-outline-dark">🌙 Dark Mode</button>
+        
+        <h1 class="mt-4">Welcome to My Website</h1>
+        <p>This is a sample paragraph to test dark mode.</p>
+
+        <div class="card p-3 mt-3">
+            <h2>Card Title</h2>
+            <p>Some content inside a card.</p>
+        </div>
+    </div>
+
+    <script>
+        const toggleButton = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // Check localStorage for theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            toggleButton.classList.remove('btn-outline-dark');
+            toggleButton.classList.add('btn-outline-light');
+            toggleButton.innerHTML = "☀️ Light Mode";
+        }
+
+        // Toggle theme on button click
+        toggleButton.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                toggleButton.classList.remove('btn-outline-dark');
+                toggleButton.classList.add('btn-outline-light');
+                toggleButton.innerHTML = "☀️ Light Mode";
+            } else {
+                localStorage.setItem('theme', 'light');
+                toggleButton.classList.remove('btn-outline-light');
+                toggleButton.classList.add('btn-outline-dark');
+                toggleButton.innerHTML = "🌙 Dark Mode";
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS (Optional for other features) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Other CSS Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="icon" href="{% static 'image/ind2.png' %}" type="image/x-icon">
+
+
+    <style>
+        {% block style %}{% endblock %}
+        html, body { height: 100%; margin: 0; }
+        body { display: flex; flex-direction: column; }
+        main { flex: 1; }
+        footer { background-color: #333; color: white; text-align: center; padding: 10px 0; width: 100%; }
+        /* Default dropdown item styles */
+    .dropdown-menu .dropdown-item {
+        color: black; /* Default text color */
+        font-size: 16px; /* Normal font size */
+        transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+
+    /* Hover effect: Zoom in text and change background color */
+    .dropdown-menu .dropdown-item:hover {
+        background-color:rgb(255, 128, 0); /* Hover background color */
+        color: white; /* Hover text color */
+        transform: scale(1.1); /* Zoom in effect */
+        border-radius:10px;
+    }
+
+    /* Active state: Change background and text color */
+    .dropdown-menu .dropdown-item:active {
+        background-color: #ff5722; /* Change to your desired active color */
+        color: white; /* Text color on active state */
+    }
+    @media (min-width: 992px) {
+        .navbar {
+            position: sticky !important;
+            top: 0;
+            z-index: 1020;
+            border-radius: 20px;
+            margin-inline: 10px;
+            background-color: rgba(255, 255, 255, 0.5); /* Adjust transparency */
+        }
+    }
+    
+    /* Use a pseudo-element to control background image transparency */
+    .navbar::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: 1000px 200px;
+        background-repeat: no-repeat;
+        background-position: 90% 90%;
+        opacity: 0.5; /* Adjust transparency */
+        z-index: -1; /* Puts the image behind text */
+    }
+    
+
+    </style>
+</head>
+{% load static %}
+<body style="background-color:black;">
+    {% comment %} <!-- Navbar --> {% endcomment %}
+    <nav class="navbar navbar-expand-lg bg-#595959 navbar-light shadow sticky-top p-0"  style="background-image: url('{% static "image/ind_flag.webp" %}');
+    background-size: 1000px 200px;
+    background-repeat: no-repeat;
+    background-position: 90% 90%;
+    position: sticky !important;
+    top: 0;
+    z-index: 1020; /* Ensure it stays on top of other elements */
+    background-color: rgba(255, 255, 255, 0.3); /* White with 80% opacity */
+    background-blend-mode: overlay;
+    
+    
+">
+        <a href="home" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary">Narayan</h2>
+        </a>
+         {% comment %} if want to add a logo <img src="{{url_for('static',filename='/image/ind.png')}}" class="ind"/></a>   {% endcomment %}
+        <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        
+        
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0" >
+                <a href="{% url "home" %}" class="nav-item nav-link">
+                    Home
+                </a>      
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Items</a>
+                    <div class="dropdown-menu fade-down m-0" style="background-color:rgba(102,102,102,0.2);">
+                        <a href="" class="dropdown-item"><strong>Oil</strong></a>
+                        <a href="" class="dropdown-item"><strong>Sweets</strong></a>
+                        <a href="" class="dropdown-item"><strong>Wooden items</strong></a>
+                    </div>
+                </div>
+                <a href="" class="nav-item nav-link">
+                    <img src="static/image/cart.png" alt="Cart" class="cart">
+                </a>             
+                <a href="" class="nav-item nav-link">
+                    <img src="static/image/contact.png" alt="contact" class="cart">
+                </a> 
+            </div>
+            {% if user.is_authenticated %}
+                <div class="login">
+                    <a href="#">User</a>
+                </div>
+            {% else %}
+                <div class="login">
+                    <a href="#">Log in</a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; Kinshuk |
+            <a href="https://github.com/E-cyborg" target="_blank" style="color: white;">Contact Us</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+    <script>{% block script %}{% endblock script %}</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} navbar {% endcomment %}
+<nav class="navbar navbar-expand-lg bg-#595959 navbar-light shadow sticky-top p-0" style="background-image: url('{% static "image/ind_flag.webp" %}');
+background-size: 1000px 200px;
+background-repeat: no-repeat;
+background-position: 90% 90%;
+position: sticky !important;
+top: 0;
+z-index: 1020; /* Ensure it stays on top of other elements */
+background-color: rgba(255, 255, 255, 0.3); /* White with 80% opacity */
+background-blend-mode: overlay;">
+    <a href="home" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <h2 class="m-0 text-primary">Narayan</h2>
+    </a>
+    <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0" >
+            <a href="{% url "home" %}" class="nav-item nav-link">
+                Home
+            </a>      
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Items</a>
+                <div class="dropdown-menu fade-down m-0" style="background-color:rgba(102,102,102,0.2);">
+                    <a href="" class="dropdown-item"><strong>Oil</strong></a>
+                    <a href="" class="dropdown-item"><strong>Sweets</strong></a>
+                    <a href="" class="dropdown-item"><strong>Wooden items</strong></a>
+                </div>
+            </div>
+            <a href="" class="nav-item nav-link">
+                <img src="static/image/cart.png" alt="Cart" class="cart">
+            </a>             
+            <a href="" class="nav-item nav-link">
+                <img src="static/image/contact.png" alt="contact" class="cart">
+            </a> 
+        </div>
+        {% if user.is_authenticated %}
+            <div class="login">
+                <a href="#">User</a>
+            </div>
+        {% else %}
+            <div class="login">
+                <a href="#">Log in</a>
+            </div>
+        {% endif %}
+    </div>
+</nav>
+

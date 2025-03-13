@@ -1,0 +1,110 @@
+{% extends "root.html" %}
+{% block title %}Oil{% endblock title %}
+{% block style %}
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+/* Container for the boxes */
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Each box style */
+.box {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 230px;
+    height:300px;
+    margin: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    padding: 15px;
+    text-align: center;
+}
+
+.box:hover {
+    transform: scale(1.05); /* Makes the box pop on hover */
+}
+
+/* Image inside the box */
+.box img {
+    max-width: 100%;
+    height: 170px;
+    border-radius: 4px;
+}
+
+/* Title of the content */
+.box h2 {
+    font-size: 1.5em;
+    margin: 10px 0;
+}
+
+/* Description */
+.box p {
+    color: #555;
+    font-size: 1em;
+    margin: 10px 0;
+}
+
+/* Button inside the box */
+.box button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.box button:hover {
+    background-color: #218838;
+}
+
+
+
+{% endblock style %}
+{% block content %}
+
+<div class="box-container">
+    <!-- First Box -->
+    <div class="box">
+        <img src="{{url_for('static' , filename='image/oil.png')}}" alt="Product 1">
+        <h2>Mustard oil</h2>
+        <p></p>
+        <a href="{{url_for('main.product',item='Mustard Oil')}}">
+        <button>Add to Cart</button></a>
+    </div>
+
+    <!-- Second Box -->
+    <div class="box">
+        <img src="{{url_for('static' , filename='image/til.png')}}" alt="Product 2">
+        <h2>Sesame Oil (til)</h2>
+        <p></p>
+        <a href="{{url_for('main.product',item='Til Ka Tel (Sesame Oil)')}}">
+        <button>Add to Cart</button></a>
+    </div>
+</div>
+{% endblock content %}
+
+{% block check %}
+    {% if usr %}
+        <div class="login">
+            <a href="{{url_for('main.user')}}">user</a>
+        </div>
+    {% else %}
+    <div class="login">
+        <a  href="{{url_for('main.login')}}">log in</a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+

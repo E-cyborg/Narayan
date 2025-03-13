@@ -1,0 +1,148 @@
+{% extends 'root.html'%}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="form-container">
+        <div class="form">
+            <!-- Login form -->
+            <form method="POST" action="{% url "login" %}" class="login-form">
+                <h2 class="form-title">Log In</h2>
+                {{form|crispy}}
+                {% csrf_token %}
+                <input type="submit" class="submit-btn" value="Log In">
+                <div class="signup-link">
+                    <a href="#">forget password</a>
+                </div>
+
+                <div class="signup-link">
+                    <a href="{% url "sign" %}">Don't have an account? Sign up here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block style %}
+.form-control::placeholder {
+    color: var(--text-color);
+    opacity: 1; /* Ensures visibility in Firefox */
+}
+
+::-webkit-input-placeholder { /* Chrome, Safari */
+    color: var(--text-color);
+}
+
+:-moz-placeholder { /* Mozilla Firefox */
+    color: var(--text-color);
+}
+
+::-moz-placeholder { /* Mozilla Firefox */
+    color: var(--text-color);
+}
+
+:-ms-input-placeholder { /* Internet Explorer */
+    color: var(--text-color);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--text-color);
+}
+
+.form-control{
+    background-color:var(--bg-color)!important;
+    color:var(--text-color) !important;
+}
+.form-text{
+    color:var(--text-color);
+}
+
+/* Form Container */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+
+}
+.input-group input{
+    background-color:var(--bg-color);
+    color: var(--text-color);
+}
+.form {
+    background-color: var(--card-bg) ;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Form Title */
+.form-title {
+    text-align: center;
+    font-size: 24px;
+    color: var(--text-color) ;
+    margin-bottom: 20px;
+}
+
+/* Input Group */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color) ;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    background-color: var(--text-color) ;
+    color: var(--bg-color);
+    padding: 12px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: var(--link-color) ;
+}
+
+/* Signup Link */
+.signup-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-link a {
+    color: var(--link-color) ;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+{% endblock%}
+
+
+
+
+{% block title %}
+Login
+{% endblock title %}
