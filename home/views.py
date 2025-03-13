@@ -16,13 +16,25 @@ def add_to_cart(request, id):
     if request.method == "POST":
         product = get_object_or_404(Product_Details, id=id)
         cart = request.session.get("cart", {}) 
-        if str(id) in cart:
-            cart[str(id)] += 1  
+        product_id = str(id)
+        if product_id in cart:
+            cart[product_id] += 1  
         else:
-            cart[str(id)] = 1  
+            cart[product_id] = 1  
         request.session["cart"] = cart  
-        request.session.modified = True  
-        return JsonResponse({"message": "Cart updated!", "new_status": "1"})
+        request.session.modified = True
+
+        # Assuming you can compute new values like quantity and total price
+        new_quantity = cart[product_id]
+        # Example: calculating the total price for this product
+        updated_price = new_quantity * product.price
+
+        return JsonResponse({
+            "message": "Cart updated!", 
+            "new_status": "1",
+            "quantity": new_quantity,
+            "updated_price": updated_price
+        })
 
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
@@ -114,4 +126,34 @@ def remove_item(request,id):
 
 
 
-# wrong id pass in cart 
+def Add_fav(request, id):
+    product = get_object_or_404(Product_Details, id=id)
+    favorites_list = request.session.get('fav', [])
+    if product.product_name in favorites_list:
+        return JsonResponse({"message": "Item already in favorites"}, status=200)
+    
+    favorites_list.append(product.product_name)
+    request.session['fav'] = favorites_list
+    request.session.modified = True
+    
+    return JsonResponse({"message": "Item added to favorites", "favorites": favorites_list}, status=200)
+
+
+def Remove_fav(request, id):
+    product = get_object_or_404(Product_Details, id=id)
+    favorites_list = request.session.get('fav', [])
+
+    if product.product_name in favorites_list:
+        favorites_list.remove(product.product_name)
+        request.session['fav'] = favorites_list
+        request.session.modified = True
+        return JsonResponse({"message": "Item removed from favorites", "favorites": favorites_list}, status=200)
+
+    return JsonResponse({"error": "Item not found in favorites"}, status=404)
+
+
+def Favorites(request):
+    if request.user.is_authenticated:
+        return JsonResponse({"status": "success", "message": "User is authenticated"})
+    else:
+        return JsonResponse({"status": "error", "message": "User is not authenticated"})

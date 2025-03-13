@@ -147,6 +147,8 @@ collapse{
 }
 
 .notification {
+    
+    margin-top: 100px;
     background-color: #e0f7fa; /* Soft teal */
     color: #00796b; /* Dark teal text */
     padding: 15px;

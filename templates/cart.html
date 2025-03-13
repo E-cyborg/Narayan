@@ -129,37 +129,48 @@
     
 
     function addToCart(productId) {
-        fetch(`/Add_to_cart/${productId}`, { 
-            method: 'POST', 
-            headers: { 
-                'X-CSRFToken': getCSRFToken(),
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(`Item cart status updated! New status: ${data.new_status}`);
-    
-            // Apply the scale-up effect to the cart icon
-            let cartIcon = document.getElementById("cart-icon");
-            if (cartIcon) {
-                cartIcon.classList.add("scale-up");
-    
-                // Remove the scale-up effect after 0.5s
-                setTimeout(() => {
-                    cartIcon.classList.remove("scale-up");
-                }, 500);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
+    fetch(`/Add_to_cart/${productId}`, { 
+        method: 'POST', 
+        headers: { 
+            'X-CSRFToken': getCSRFToken(),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(`Item cart status updated! New status: ${data.new_status}`);
+        
+        // Update the quantity input field if it exists
+        let quantityInput = document.getElementById(`qty-${productId}`);
+        if (quantityInput && data.quantity !== undefined) {
+            quantityInput.value = data.quantity;
+        }
+
+        // Update the total price element if it exists
+        let totalPriceElement = document.getElementById(`total-${productId}`);
+        if (totalPriceElement && data.updated_price !== undefined) {
+            totalPriceElement.textContent =  data.updated_price;
+        }
+
+        // Apply the scale-up effect to the cart icon
+        let cartIcon = document.getElementById("cart-icon");
+        if (cartIcon) {
+            cartIcon.classList.add("scale-up");
+            setTimeout(() => {
+                cartIcon.classList.remove("scale-up");
+            }, 500);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
     
 
 </script>
