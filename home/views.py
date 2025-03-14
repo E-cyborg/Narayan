@@ -11,6 +11,9 @@ def index(req):
 def contact(req):
     return render(req, "contact.html")
 
+
+
+# cart views
 @csrf_exempt
 def add_to_cart(request, id):
     if request.method == "POST":
@@ -125,7 +128,7 @@ def remove_item(request,id):
 
 
 
-
+#  Favorites views
 def Add_fav(request, id):
     product = get_object_or_404(Product_Details, id=id)
     favorites_list = request.session.get('fav', [])

@@ -40,6 +40,13 @@ body {
     
 }
 
+@media (max-width: 578.98px)
+{
+    .navbar{
+        height:100px;
+    }
+}
+
 .navbar-expand-lg .navbar-nav .nav-link {
     color: var(--text-color) !important;
     display: flex;

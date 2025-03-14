@@ -1,50 +1,88 @@
 {% extends "root.html" %}
 
+{% block style %}
+.btn:hover{
+    background-color:var(--link-color);
+    border-color: var(--link-color) !important; 
+
+}
+.btn{
+    border-color:var(--link-color);
+}
+.checkout{
+    background-color:var(--link-color);
+}
+.remove{
+    background-color:#e43d4d;
+    border-color:#e43d4d;
+}
+.remove:hover{
+    background-color:var(--text-color);
+    border-color:var(--bg-color)!important;
+    color:var(--link-color);
+}
+{% endblock style %}
+
+
+
 {% block content %}
-<div class="container">
+<div class="container" style="margin-top: 50px;">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12"  style="
+    background-color: var(--card-bg); border-radius: 10px;">
             {% if cart.items %}
             <h1>Cart</h1>
-            <table class="table">
+            <table class="table" >
                 <thead>
                     <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th>Action</th>
+                        <th style="
+                        background-color: var(--card-bg); color:var(--link-color);">Product</th>
+                        <th style="
+                        background-color: var(--card-bg); color:var(--link-color);">Price</th>
+                        <th style="
+                        background-color: var(--card-bg); color:var(--link-color);">Quantity</th>
+                        <th style="
+                        background-color: var(--card-bg); color:var(--link-color);">Total Price</th>
+                        <th style="
+                        background-color: var(--card-bg); color:var(--link-color);">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     
                     {% for item in cart.items %}
                     <tr>
-                        <td>{{ item.product_name }}</td>
-                        <td>₹{{ item.price }}</td>
-                        <td>
+                        <td style="
+                        background-color: var(--card-bg); color:var(--text-color);">{{ item.product_name }}</td>
+                        <td style="
+                        background-color: var(--card-bg); color:var(--text-color);">₹{{ item.price }}</td>
+                        <td style="
+                        background-color: var(--card-bg); color:var(--link-color);">
                             <div class="input-group">
                                 <button class="btn btn-outline-secondary" onclick="RemoveOneItem('{{item.id}}')">-</button>
-                                <input type="text" class="form-control text-center" value="{{ item.quantity }}" id="qty-{{ item.id }}" readonly>
+                                <input type="text" class="form-control text-center" value="{{ item.quantity }}" id="qty-{{ item.id }}" style="
+                        background-color: var(--card-bg); color:var(--link-color); 
+                        width:1px;" readonly>
                                 <button class="btn btn-outline-secondary" onclick="addToCart('{{item.id}}')">+</button>
                             </div>
                         </td>
-                        <td>₹<span id="total-{{ item.id }}">{{ item.total_price }}</span></td>
-                        <td>
-                            <button class="btn btn-danger" onclick="RemoveItem('{{ item.id }}')">Remove</button>
+                        <td style="
+                        background-color: var(--card-bg); color:var(--text-color);">₹<span id="total-{{ item.id }}">{{ item.total_price }}</span></td>
+                        <td style="
+                        background-color: var(--card-bg); color:var(--link-color);"> 
+                            <button class="btn remove" onclick="RemoveItem('{{ item.id }}')">Remove</button>
                         </td>
                     </tr>
                     {% endfor %}
 
                 </tbody>
             </table>
-            <a href="/cart/checkout" class="btn btn-primary">Checkout</a>
+            <a href="/cart/checkout" class="btn checkout">Checkout</a>
             <h3>Total: ₹{{ cart.total }}</h3>
             {% else %}
                 <div class="container text-center my-5">
                     <img src="https://cdn-icons-png.flaticon.com/512/102/102661.png" alt="Empty Cart" class="img-fluid" width="150">
                     <h2 class="mt-4">Your Cart is Empty</h2>
-                    <p class="text-muted">Looks like you haven't added anything to your cart yet.</p>
+                    <p class="text-muted" style="color:var(--text-color) !important;">Looks like you haven't added anything to your cart yet.</p>
                     <a href="/" class="btn btn-danger mt-3">
                         <i class="fas fa-shopping-cart"></i> Continue Shopping
                     </a>
