@@ -35,5 +35,5 @@ Ensure you have the following installed:
 ### Steps to Install
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/yourusername/narayan.git
+   git clone https://github.com/E-cyborg/narayan.git
    cd narayan
