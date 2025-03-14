@@ -1,6 +1,6 @@
 # Narayan - Traditional Sweets E-Commerce
 
-[//]:# [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 
 ## Table of Contents
@@ -31,7 +31,7 @@ Narayan is a Django-based e-commerce website designed to sell traditional sweets
 Ensure you have the following installed:
 - Python (>= 3.8)
 - Django (>= 4.0)
-- PostgreSQL or SQLite (for the database)
+- SQLite (for the database)
 
 ### Steps to Install
 1. **Clone the repository:**
