@@ -1,4 +1,5 @@
 # Narayan - Traditional Sweets E-Commerce
+> 🚧 **Note:** This project is currently under development. Features and functionality may change as we continue to improve the platform.
 
 [![Python Version](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 
