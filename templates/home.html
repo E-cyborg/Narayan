@@ -45,7 +45,7 @@
     padding: 20px;
     text-align: center;
     transition: box-shadow 0.3s, transform 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 8px var(--text-color);
 }
 
 .box:hover {
@@ -524,19 +524,20 @@ p {
                 <div class="col-md-4">
                     <div class="product-card" style="background-color: var(--bg-color);">
                         <div class="gold-frame"></div>
+                        <a href="{% url "products_details" product.id %}" style="text-decoration: none;">
                         <img src="{% static 'image/' %}{{ product.id }}.png"
                              id="product-image-{{ product.id }}"
                              alt="{{ product.product_name }}"
                              class="product-image"
                              data-product-type="{{ product.item_type }}" >
                         <h5 class="product-title" >{{ product.product_name }}</h5>
-                        <p class="product-description" style="color: var(--text-color);">{{ product.details|truncatewords:10 }}</p>
+                        <p class="product-description" style="color: var(--text-color);">{{ product.details|truncatewords:10 }}</p></a>
                         <p class="product-price">₹{{ product.price }}</p>
                         <div class="action-buttons">
                             <button class="btn-icon btn-add" onclick="addToCart('{{ product.id }}')"> 
                                 <i class="fas fa-plus"></i> ADD TO CART
                             </button> 
-                            <button class="btn-icon btn-wishlist"><i class="fas fa-heart"></i></button>
+                            <button class="btn-icon btn-wishlist" onclick="addToFav('{{product.id}}')"><i class="fas fa-heart"></i></button>
                         </div>
                     </div>
                 </div>
@@ -630,6 +631,29 @@ function getCSRFToken() {
     return null;
 }
 
+function addToFav(productId) {
+    fetch(`/add_fav-${productId}`, {  // Ensure correct endpoint
+        method: 'POST',  // Use PUT instead of POST
+        headers: { 
+            'X-CSRFToken': getCSRFToken(),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+
+            
+            console.log("Success:", data.message);
+            window.location.reload();
+        } else {
+            console.error("Error:", data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 </script>
 {% endblock script %}

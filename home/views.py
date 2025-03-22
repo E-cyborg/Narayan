@@ -128,35 +128,58 @@ def remove_item(request,id):
 
 
 
-#  Favorites views
-def Add_fav(request, id):
-    product = get_object_or_404(Product_Details, id=id)
-    favorites_list = request.session.get('fav', [])
-    if product.product_name in favorites_list:
-        return JsonResponse({"message": "Item already in favorites"}, status=200)
-    
-    favorites_list.append(product.product_name)
-    request.session['fav'] = favorites_list
-    request.session.modified = True
-    
-    return JsonResponse({"message": "Item added to favorites", "favorites": favorites_list}, status=200)
+@csrf_exempt  # Use this only for testing; ideally, handle CSRF properly
+def add_fav(request, id):
+    if request.method == "POST":
+        if request.user.is_authenticated:  # Ensure it only processes PUT requests
+            product = get_object_or_404(Product_Details, id=id)
+            favorites_list = request.session.get('fav', [])
+
+            if product.id in favorites_list:
+                messages.info(request,"Item allready in Favorites")
+                return JsonResponse({"message": "Item already in favorites"}, status=200)
+
+            favorites_list.append(product.id)
+            request.session['fav'] = favorites_list
+            request.session.modified = True
+            
+            return JsonResponse({"message": "Item added to favorites", "favorites": favorites_list}, status=200)
+
+    return JsonResponse({"error": "Invalid request method"}, status=400)
+
+@csrf_exempt
+def remove_fav(request, id):
+    if request.method == "DELETE":  
+        if request.user.is_authenticated:
+
+            favorites_list = request.session.get('fav', [])
+
+            print(favorites_list)
+
+            if id in favorites_list:
+                favorites_list.remove(id)
+                request.session['fav'] = favorites_list
+                request.session.modified = True
+                return JsonResponse({"message": "Item removed from favorites", "favorites": favorites_list}, status=200)
+
+            return JsonResponse({"error": f"Item not found in favorites=-{id}"}, status=404)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
-def Remove_fav(request, id):
-    product = get_object_or_404(Product_Details, id=id)
-    favorites_list = request.session.get('fav', [])
-
-    if product.product_name in favorites_list:
-        favorites_list.remove(product.product_name)
-        request.session['fav'] = favorites_list
-        request.session.modified = True
-        return JsonResponse({"message": "Item removed from favorites", "favorites": favorites_list}, status=200)
-
-    return JsonResponse({"error": "Item not found in favorites"}, status=404)
-
-
-def Favorites(request):
+def favorites(request):
     if request.user.is_authenticated:
-        return JsonResponse({"status": "success", "message": "User is authenticated"})
+
+        """Show list of favorite products"""
+        fav_ids = request.session.get('fav', [])  # Get favorite product IDs
+        fav_items = Product_Details.objects.filter(id__in=fav_ids)  # Fetch products
+
+        return render(request, "favorite.html", {"fav_items": fav_items})
     else:
-        return JsonResponse({"status": "error", "message": "User is not authenticated"})
+        messages.info(request,"Please login")
+        return redirect('login')
+
+def More_detail_products(request,id):
+    product= get_object_or_404(Product_Details,id=id)
+    return render(request,"product.html",{"product_d":product})
+

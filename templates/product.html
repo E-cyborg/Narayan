@@ -1,5 +1,5 @@
 {% extends "root.html" %}
-
+{% load static %}
 {% block title %}
     {{ product_d.product_name }}
 {% endblock title %}
@@ -14,27 +14,27 @@
                 <div class="carousel-inner">
                     {% if product_d.image1 %}
                         <div class="carousel-item active">
-                            <img src="{{ url_for('main.get_image', product_id=product_d.product_id, image_number=1) }}" class="d-block w-100 img-fluid" alt="Image 1">
+                            <img src="" class="d-block w-100 img-fluid" alt="Image 1">
                         </div>
                     {% endif %}
                     {% if product_d.image2 %}
                         <div class="carousel-item">
-                            <img src="{{ url_for('main.get_image', product_id=product_d.product_id, image_number=2) }}" class="d-block w-100 img-fluid" alt="Image 2">
+                            <img src="" class="d-block w-100 img-fluid" alt="Image 2">
                         </div>
                     {% endif %}
                     {% if product_d.image3 %}
                         <div class="carousel-item">
-                            <img src="{{ url_for('main.get_image', product_id=product_d.product_id, image_number=3) }}" class="d-block w-100 img-fluid" alt="Image 3">
+                            <img src="" class="d-block w-100 img-fluid" alt="Image 3">
                         </div>
                     {% endif %}
                     {% if product_d.image4 %}
                         <div class="carousel-item">
-                            <img src="{{ url_for('main.get_image', product_id=product_d.product_id, image_number=4) }}" class="d-block w-100 img-fluid" alt="Image 4">
+                            <img src="" class="d-block w-100 img-fluid" alt="Image 4">
                         </div>
                     {% endif %}
                     {% if product_d.image5 %}
                         <div class="carousel-item">
-                            <img src="{{ url_for('main.get_image', product_id=product_d.product_id, image_number=5) }}" class="d-block w-100 img-fluid" alt="Image 5">
+                            <img src="" class="d-block w-100 img-fluid" alt="Image 5">
                         </div>
                     {% endif %}
                 </div>
@@ -52,18 +52,18 @@
         <!-- Right Column: Product Information -->
         <div class="col-md-6">
             <h1 class="product-title">{{ product_d.product_name }}</h1>
-            <p class="text-muted">{{ product_d.p_type | capitalize }}</p>
-            <h3 class="text-success">₹{{ product_d.price }}</h3>
+            <p class="text-muted">{{ product_d.p_type  }}</p>
             <p class="availability">
                 Availability: 
                 <span class="{% if product_d.available %}text-success{% else %}text-danger{% endif %}">
                     {% if product_d.available %}In Stock{% else %}Out of Stock{% endif %}
                 </span>
             </p>
-            <p><strong>Quantity:</strong> {{ product_d.quantity }}</p>
             <p class="product-details">{{ product_d.details }}</p>
-            <p><small class="text-muted">Added on: {{ product_d.created_at.strftime('%d %B %Y, %I:%M %p') }}</small></p>
+            {% comment %} <p><strong>Quantity:</strong> {{ product_d.quantity }}</p> {% endcomment %}
+            <p><small class="text-muted">Created on: {{ product_d.created_at }}</small></p>
             
+            <h3 class="Price">₹{{ product_d.price }}</h3>
             <div class="d-grid gap-2 mt-4">
                 <button class="btn btn-primary btn-lg">Add to Cart</button>
                 <button class="btn btn-outline-secondary btn-lg">Buy Now</button>
@@ -83,7 +83,7 @@
                 {% for comment in comments %}
                     <div class="review mb-4 p-3 rounded shadow-sm bg-light">
                         <h5 class="mb-1">{{ comment.username }}</h5>
-                        <small class="text-muted">{{ comment.c_date.strftime('%d %B %Y') }}</small>
+                        <small class="text-muted">{{ comment.c_date }}</small>
                         <p class="mt-2">{{ comment.message }}</p>
                     </div>
                 {% endfor %}
@@ -91,7 +91,7 @@
         {% else %}
             <div class="text-center">
                 <p class="text-muted mt-3">No reviews yet. Be the first to review this product!</p>
-                <a href="#reviewForm" class="btn btn-primary mt-2">Write a Review</a>
+                
             </div>
         {% endif %}
     </div>
@@ -132,17 +132,17 @@
 
     /* Custom carousel controls */
     .carousel-control-prev-icon {
-        background-image: url("{{ url_for('static', filename='image/left.png') }}");
+        background-image: url("{% static "\image\left.png" %}");
     }
     .carousel-control-next-icon {
-        background-image: url("{{ url_for('static', filename='image/right.png') }}");
+        background-image: url("{% static "\image\right.png" %}");
     }
 
     /* Product details styling */
     .product-title {
         font-weight: 700;
         font-size: 2.5rem;
-        color: #333;
+        color: var(--link-color);
     }
 
     .availability {
@@ -153,48 +153,54 @@
     .product-details {
         line-height: 1.6;
         font-size: 1rem;
-        color: #555;
+        color: var(--text-color);
     }
 
     /* Reviews Section Styling */
     .review {
         border: 1px solid #ddd;
-        background-color: #f9f9f9;
+        background-color: var(--bg-color);
     }
 
-    .review h5 {
+    .review h4 {
         font-weight: bold;
-        color: #333;
+        color: var(--link-color) ;
     }
 
     .review small {
         font-size: 0.9rem;
-        color: #777;
+        color: var(--text-color);
     }
 
     .review p {
         font-size: 1rem;
-        color: #555;
+        color: var(--text-color);
     }
 
     .review-form {
         border: 1px solid #ddd;
-        background-color: #fff;
+        background-color: var(--card-bg) !important;
     }
 
     .review-form h4 {
         font-weight: bold;
-        color: #333;
+        color: var(--link-color);
     }
 
     .review-form .form-control {
+        color:var(--text-color);
+        background-color:var(--bg-color);
         border-radius: 0.25rem;
         border: 1px solid #ccc;
     }
+    .form-control::placeholder {
+        color: var(--text-color); s
+      }
 
     .review-form .btn-primary {
-        background-color: #007bff;
+        background-color: var(--bg-color);
         border: none;
+        color:var(--text-color)!important;
     }
 
     /* Adjust layout for medium and large screens */
@@ -203,5 +209,14 @@
             max-width: 800px;
             margin: 0 auto;
         }
+    }
+    .review-form .btn-primary:hover{
+        background-color:var(--link-color);
+    }
+    .text-muted{
+        color:var(--text-color)!important;
+    }
+    .Price{
+        color:#c0392b !important;
     }
 {% endblock style %}

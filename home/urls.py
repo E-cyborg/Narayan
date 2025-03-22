@@ -8,7 +8,8 @@ urlpatterns = [
     path("cart",views.cart,name="cart"),
     path('remove_one_item/<int:id>',views.remove_one_item,name="remove_one_item"),
     path('remove_item/<int:id>',views.remove_item,name="remove_item"),
-    path('Add_fav-<int:id>',views.Add_fav,name="Add_fav"),
-    path('Remove_fav-<int:id>',views.Remove_fav,name="Remove_fav"),
-    path('Favorites',views.Favorites,name='Favorites')
+    path('add_fav-<int:id>',views.add_fav,name="Add_fav"),
+    path('remove_fav-<int:id>',views.remove_fav,name="Remove_fav"),
+    path('Favorites',views.favorites,name='Favorites'),
+    path('products_details-<int:id>',views.More_detail_products,name="products_details")
 ]

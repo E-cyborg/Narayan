@@ -48,3 +48,15 @@ class Message(models.Model):
 
     def __str__(self):
         return f"Message from {self.user_name.username} - {self.email}"
+
+
+class Favorite_items(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # Link to User
+    product = models.ForeignKey(Product_Details, on_delete=models.CASCADE)  # Link to Product
+    added_at = models.DateTimeField(auto_now_add=True)  # Timestamp
+
+    class Meta:
+        unique_together = ('user', 'product')  # Prevent duplicate favorites
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name}"
