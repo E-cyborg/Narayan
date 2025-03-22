@@ -1,0 +1,100 @@
+{% extends "root.html" %}
+{% block style %}
+tbody, td, tfoot, th, thead, tr {
+    border-color: var(--text-color);
+}
+.btn:hover {
+    background-color: var(--link-color);
+    border-color: var(--link-color) !important;
+}
+.btn {
+    border-color: var(--link-color);
+}
+.remove {
+    background-color: #e43d4d;
+    border-color: #e43d4d;
+}
+.remove:hover {
+    background-color: var(--text-color);
+    border-color: var(--bg-color) !important;
+    color: var(--link-color);
+}
+.container {
+    margin-bottom: 50px;
+}
+
+{% endblock style %}
+
+{% block title %}My Favorites{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4" style="color: var(--link-color);">My Favorite Items</h2>
+    <div class="col-md-12"  style="
+    background-color: var(--card-bg); border-radius: 10px;
+    padding:10px;">
+    {% if fav_items %}
+    <h1>Favorites</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="background-color: var(--card-bg); color: var(--link-color);">Product</th>
+                <th style="background-color: var(--card-bg); color: var(--link-color);">Price</th>
+                <th style="background-color: var(--card-bg); color: var(--link-color);">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in fav_items %}
+            <tr>
+                <td style="background-color: var(--card-bg); color: var(--text-color);">{{ item.product_name }}</td>
+                <td style="background-color: var(--card-bg); color: var(--text-color);">₹{{ item.price }}</td>
+                <td style="background-color: var(--card-bg); color: var(--link-color);">
+                    <button class="btn remove" onclick="removeFavorite('{{ item.id }}')">Remove</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+                <div class="container text-center my-5">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4340/4340223.png" alt="Empty Cart" class="img-fluid" width="150">
+                    <h2 class="mt-4">Your Favorite is Empty</h2>
+                    <p class="text-muted" style="color:var(--text-color) !important;">Looks like you haven't added anything to your favorites yet.</p>
+                    <a href="/" class="btn btn-danger mt-3">
+                        <i class="fas fa-heart"></i> Browse Products
+                    </a>
+                </div>
+    <p class="text-center">No favorite items yet.</p>
+    {% endif %}
+</div>
+</div>
+
+<script>
+    function getCSRFToken() {
+        let cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            let [name, value] = cookie.trim().split('=');
+            if (name === 'csrftoken') return value;
+        }
+        return null;
+    }
+    function removeFavorite(productId) {
+        fetch(`/remove_fav-${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                location.reload();  // Refresh the page after removing item
+            } else {
+                console.error("Error:", data.error);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+{% endblock %}
