@@ -3,6 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from .models import Product_Details
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+import os
+
 
 def index(req):
     products = Product_Details.objects.all()
@@ -181,5 +183,14 @@ def favorites(request):
 
 def More_detail_products(request,id):
     product= get_object_or_404(Product_Details,id=id)
-    return render(request,"product.html",{"product_d":product})
+    image_paths = {}
+
+    # Loop to check for up to 4 images
+    for i in range(4):
+        image_path = f'static/image/{product.product_name}/{i}.png'
+        if os.path.exists(image_path):
+            image_paths[f'image{i+1}'] = f"/static/image/{product.product_name}/{i}.png"
+
+    # Pass both product and images to the template
+    return render(request, "product.html", {"product_d": product, "images": image_paths})
 
