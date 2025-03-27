@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from .models import Product_Details
+from .models import Product_Details ,UserProfile
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 import os
@@ -135,17 +135,20 @@ def add_fav(request, id):
     if request.method == "POST":
         if request.user.is_authenticated:  # Ensure it only processes PUT requests
             product = get_object_or_404(Product_Details, id=id)
-            favorites_list = request.session.get('fav', [])
+            user_profile = UserProfile.objects.filter(user=request.user).first()
+            if not user_profile:
+                user_profile = UserProfile.objects.create(user=request.user, favorite_items="")
+            favorites_list = user_profile.favorite_items.split(',') if user_profile.favorite_items else []
+            if str(product.id) in favorites_list:
+                messages.info(request, "Item already in Favorites")
+                return JsonResponse({"message": "Item already in favorites","favorites": favorites_list}, status=200)
 
-            if product.id in favorites_list:
-                messages.info(request,"Item allready in Favorites")
-                return JsonResponse({"message": "Item already in favorites"}, status=200)
+            # Add the new product ID to favorites
+            favorites_list.append(str(product.id))
+            user_profile.favorite_items = ','.join(favorites_list) 
+            user_profile.save()  # Save the updated list
 
-            favorites_list.append(product.id)
-            request.session['fav'] = favorites_list
-            request.session.modified = True
-            
-            return JsonResponse({"message": "Item added to favorites", "favorites": favorites_list}, status=200)
+            return JsonResponse({"message": "Item added to favorites"}, status=200)
 
     return JsonResponse({"error": "Invalid request method"}, status=400)
 
@@ -153,15 +156,14 @@ def add_fav(request, id):
 def remove_fav(request, id):
     if request.method == "DELETE":  
         if request.user.is_authenticated:
-
-            favorites_list = request.session.get('fav', [])
-
-            print(favorites_list)
-
-            if id in favorites_list:
-                favorites_list.remove(id)
-                request.session['fav'] = favorites_list
-                request.session.modified = True
+            user_profile = UserProfile.objects.filter(user=request.user).first()
+            if not user_profile:
+                user_profile = UserProfile.objects.create(user=request.user, favorite_items="")
+            favorites_list = user_profile.favorite_items.split(',') if user_profile.favorite_items else []
+            if str(id) in favorites_list:
+                favorites_list.remove(str(id))
+                user_profile.favorite_items=','.join(favorites_list)
+                user_profile.save()
                 return JsonResponse({"message": "Item removed from favorites", "favorites": favorites_list}, status=200)
 
             return JsonResponse({"error": f"Item not found in favorites=-{id}"}, status=404)
@@ -173,13 +175,27 @@ def favorites(request):
     if request.user.is_authenticated:
 
         """Show list of favorite products"""
-        fav_ids = request.session.get('fav', [])  # Get favorite product IDs
+        user_profile = UserProfile.objects.filter(user__email=request.user.email).first()
+        fav_ids = user_profile.favorite_items.split(',') if user_profile.favorite_items else []
         fav_items = Product_Details.objects.filter(id__in=fav_ids)  # Fetch products
 
-        return render(request, "favorite.html", {"fav_items": fav_items})
+        print(fav_ids)
+        return render(request, "favorite.html", {"fav_items":fav_items,"product":fav_items})
     else:
         messages.info(request,"Please login")
         return redirect('login')
+
+
+# in case of db failure use session
+            # if product.id in favorites_list:
+            #     messages.info(request,"Item allready in Favorites")
+            #     return JsonResponse({"message": "Item already in favorites"}, status=200)
+
+            # favorites_list.append(product.id)
+            # request.session['fav'] = favorites_list
+            # request.session.modified = True
+
+
 
 def More_detail_products(request,id):
     product= get_object_or_404(Product_Details,id=id)

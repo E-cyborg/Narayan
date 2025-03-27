@@ -30,75 +30,81 @@ tbody, td, tfoot, th, thead, tr {
 }
 {% endblock style %}
 
-
-
 {% block content %}
 <div class="container" style="margin-top: 50px;">
     <div class="row">
-        <div class="col-md-12"  style="
-    background-color: var(--card-bg); border-radius: 10px;">
+        <div class="col-md-12 p-3 p-md-4" style="background-color: var(--card-bg); border-radius: 10px;">
             {% if cart.items %}
             <h1>Cart</h1>
-            <table class="table" >
-                <thead>
-                    <tr>
-                        <th style="
-                        background-color: var(--card-bg); color:var(--link-color);">Product</th>
-                        <th style="
-                        background-color: var(--card-bg); color:var(--link-color);">Price</th>
-                        <th style="
-                        background-color: var(--card-bg); color:var(--link-color);">Quantity</th>
-                        <th style="
-                        background-color: var(--card-bg); color:var(--link-color);">Total Price</th>
-                        <th style="
-                        background-color: var(--card-bg); color:var(--link-color);">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    
-                    {% for item in cart.items %}
-                    <tr>
-                        <td style="
-                        background-color: var(--card-bg); color:var(--text-color);">{{ item.product_name }}</td>
-                        <td style="
-                        background-color: var(--card-bg); color:var(--text-color);">₹{{ item.price }}</td>
-                        <td style="
-                        background-color: var(--card-bg); color:var(--link-color);">
-                            <div class="input-group">
-                                <button class="btn btn-outline-secondary" onclick="RemoveOneItem('{{item.id}}')">-</button>
-                                <input type="text" class="form-control text-center" value="{{ item.quantity }}" id="qty-{{ item.id }}" style="
-                        background-color: var(--card-bg); color:var(--link-color); 
-                        width:1px;" readonly>
-                                <button class="btn btn-outline-secondary" onclick="addToCart('{{item.id}}')">+</button>
-                            </div>
-                        </td>
-                        <td style="
-                        background-color: var(--card-bg); color:var(--text-color);">₹<span id="total-{{ item.id }}">{{ item.total_price }}</span></td>
-                        <td style="
-                        background-color: var(--card-bg); color:var(--link-color);"> 
-                            <button class="btn remove" onclick="RemoveItem('{{ item.id }}')">Remove</button>
-                        </td>
-                    </tr>
-                    {% endfor %}
 
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table mb-0 mb-md-3">  <!-- Reduced margin on small screens -->
+                    <thead>
+                        <tr>
+                            <th style="background-color: var(--card-bg); color:var(--link-color);">Product</th>
+                            <th style="background-color: var(--card-bg); color:var(--link-color);">Price</th>
+                            <th style="background-color: var(--card-bg); color:var(--link-color);">Quantity</th>
+                            <th class="d-none d-md-table-cell" style="background-color: var(--card-bg); color:var(--link-color);">Total Price</th>
+                            <th style="background-color: var(--card-bg); color:var(--link-color);">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart.items %}
+                        <tr>
+                            <td style="background-color: var(--card-bg); color:var(--text-color);">{{ item.product_name }}</td>
+                            <td style="background-color: var(--card-bg); color:var(--text-color);">₹{{ item.price }}</td>
+                            <td style="background-color: var(--card-bg); color:var(--link-color);">
+                                <div class="input-group">
+                                    <button class="btn btn-outline-secondary" onclick="RemoveOneItem('{{item.id}}')">-</button>
+                                    <input type="text" class="form-control text-center" value="{{ item.quantity }}" id="qty-{{ item.id }}" style="background-color: var(--card-bg); color:var(--link-color); width:1px;" readonly>
+                                    <button class="btn btn-outline-secondary" onclick="addToCart('{{item.id}}')">+</button>
+                                </div>
+                            </td>
+                            <td class="d-none d-md-table-cell" style="background-color: var(--card-bg); color:var(--text-color);">
+                                ₹<span id="total-{{ item.id }}">{{ item.total_price }}</span>
+                            </td>
+                            <td style="background-color: var(--card-bg); color:var(--link-color);">
+                                <button class="btn remove" onclick="RemoveItem('{{ item.id }}')">Remove</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
             <a href="/cart/checkout" class="btn checkout">Checkout</a>
             <h3>Total: ₹{{ cart.total }}</h3>
+
             {% else %}
-                <div class="container text-center my-5">
-                    <img src="https://cdn-icons-png.flaticon.com/512/102/102661.png" alt="Empty Cart" class="img-fluid" width="150">
-                    <h2 class="mt-4">Your Cart is Empty</h2>
-                    <p class="text-muted" style="color:var(--text-color) !important;">Looks like you haven't added anything to your cart yet.</p>
-                    <a href="/" class="btn btn-danger mt-3">
-                        <i class="fas fa-shopping-cart" ></i> Continue Shopping
-                    </a>
-                </div>
+            <div class="container text-center my-5">
+                <img src="https://cdn-icons-png.flaticon.com/512/102/102661.png" alt="Empty Cart" class="img-fluid" width="150">
+                <h2 class="mt-4">Your Cart is Empty</h2>
+                <p class="text-muted" style="color:var(--text-color) !important;">Looks like you haven't added anything to your cart yet.</p>
+                <a href="/" class="btn btn-danger mt-3">
+                    <i class="fas fa-shopping-cart"></i> Continue Shopping
+                </a>
+            </div>
             {% endif %}
         </div>
     </div>
 </div>
+
+<style>
+    /* Reduce padding for table headers and cells on small screens */
+    @media (max-width: 768px) {
+        th, td {
+            padding: 1px !important; /* Reduce cell padding */
+        }
+    
+        .table {
+            margin-bottom: 5px !important; /* Reduce table bottom margin */
+        }
+    }
+    </style>
+    
+
 {% endblock content %}
+
 {% block script %}
 <script>
     function RemoveItem(productId) {
@@ -210,6 +216,7 @@ tbody, td, tfoot, th, thead, tr {
                 cartIcon.classList.remove("scale-up");
             }, 500);
         }
+        window.location.reload()
     })
     .catch(error => {
         console.error('Error:', error);

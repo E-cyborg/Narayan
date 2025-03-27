@@ -17,13 +17,13 @@ class ProductDetailsAdmin(admin.ModelAdmin):
 
 admin.site.register(Product_Details, ProductDetailsAdmin)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('username', 'item_type', 'short_message', 'comm_date')  # Display key fields in list view
-    list_filter = ('comm_date', 'item_type')  # Filters on sidebar
-    search_fields = ('username__username', 'item_type__product_name', 'message')  # Searchable fields
-    ordering = ('-comm_date',)  # Newest comments first
-    readonly_fields = ('comm_date',)  # Make comment date read-only
+    list_display = ('username', 'product', 'short_message', 'comm_date')  # Changed item_type -> product
+    list_filter = ('comm_date', 'product')  # Changed item_type -> product
+    search_fields = ('username__username', 'product__product_name', 'message')  # Changed item_type -> product
+    ordering = ('-comm_date',)  
+    readonly_fields = ('comm_date',)  
     fieldsets = (
-        ("User & Product", {'fields': ('username', 'item_type')}),
+        ("User & Product", {'fields': ('username', 'product')}),  # Changed item_type -> product
         ("Comment Details", {'fields': ('message', 'comm_date')}),
     )
 
