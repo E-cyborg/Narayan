@@ -487,8 +487,8 @@ p {
                 <img src="{% static "/image/gajer.jpg" %}" alt="Assorted Sweets">
                 <h2>Sweets</h2>
                 <p>Indulge in our traditional sweets, crafted with love and authentic recipes handed down through generations. Perfect for celebrations or a sweet treat any day.</p>
-                <a href="#">
-                <button>Add to Cart</button></a>
+                {% comment %} <a href="#">
+                <button>Add to Cart</button></a> {% endcomment %}
             </div>
             
             <!-- Second Box: Wooden Utensils -->
@@ -496,8 +496,8 @@ p {
                 <img src="{% static "/image/utensil.jpg" %}" alt="Wooden Utensils">
                 <h2>Wooden Utensils</h2>
                 <p>Our wooden utensils are made from high-quality, sustainably sourced wood, designed to bring a natural touch to your kitchen. Durable and crafted with care.</p>
-                <a href="#">
-                <button>Add to Cart</button></a>
+                {% comment %} <a href="#">
+                <button>Add to Cart</button></a> {% endcomment %}
             </div>
             
             <!-- Third Box: Mustard Oil -->
@@ -505,8 +505,8 @@ p {
                 <img src="{% static "image/4.png" %}" alt="Mustard Oil">
                 <h2>Mustard oil</h2>
                 <p>Pure mustard oil, cold-pressed to retain its natural flavor and health benefits. A staple in many kitchens, our mustard oil is perfect for cooking and massages.</p>
-                <a href="#">
-                <button>Add to Cart</button></a>
+                {% comment %} <a href="#">
+                <button>Add to Cart</button></a> {% endcomment %}
             </div>
         </div>
     </div>
@@ -524,7 +524,7 @@ p {
                 <div class="col-md-4">
                     <div class="product-card" style="background-color: var(--bg-color);">
                         <div class="gold-frame"></div>
-                        <a href="{% url "products_details" product.id %}" style="text-decoration: none;">
+                        <a href="{% url "products_details" id=product.id %}" style="text-decoration: none;">
                         <img src="{% static 'image/' %}{{ product.id }}.png"
                              id="product-image-{{ product.id }}"
                              alt="{{ product.product_name }}"

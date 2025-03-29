@@ -12,7 +12,7 @@ class Product_Details(models.Model):
     available = models.BooleanField(default=True)
     quantity = models.IntegerField()
     item_type = models.CharField(max_length=50)  
-    created_at = models.DateField(default=now)
+    created_at = models.DateField(default=now())
 
     def __str__(self):
         return self.product_name
@@ -23,7 +23,7 @@ def get_reach_date():
 class Cart(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE)  
     delivery_address = models.JSONField()
-    ordered_date = models.DateField(default=now)
+    ordered_date = models.DateField(default=now())
     reach_date = models.DateField(default=get_reach_date)
     product = models.ForeignKey(Product_Details, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -35,7 +35,7 @@ class Comment(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE) 
     product = models.ForeignKey(Product_Details, on_delete=models.CASCADE)  
     message = models.TextField()
-    comm_date = models.DateField(default=now)
+    comm_date = models.DateField(default=now())
 
     def __str__(self):
         return f"{self.username.username} - {self.product.product_name} - {self.message[:30]}..."  
@@ -43,7 +43,7 @@ class Comment(models.Model):
 class Message(models.Model):
     user_name = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.EmailField(max_length=254)
-    message_date = models.DateField(default=now)
+    message_date = models.DateField(default=now())
     message = models.TextField()
 
     def __str__(self):

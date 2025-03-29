@@ -11,5 +11,5 @@ urlpatterns = [
     path('add_fav-<int:id>',views.add_fav,name="Add_fav"),
     path('remove_fav-<int:id>',views.remove_fav,name="Remove_fav"),
     path('Favorites',views.favorites,name='Favorites'),
-    path('products_details-<int:id>',views.More_detail_products,name="products_details")
+    path('products_details-<int:id>/', views.More_detail_products, name="products_details"),
 ]

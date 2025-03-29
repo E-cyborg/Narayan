@@ -1,13 +1,19 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse, JsonResponse
-from .models import Product_Details ,UserProfile
+from .models import Product_Details ,UserProfile ,Comment
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 import os
+import random
+from django.utils.timezone import now
+
 
 
 def index(req):
     products = Product_Details.objects.all()
+    # ---- if want to suffel the product indexing ------
+    # products = list(products)
+    # random.shuffle(products)
     return render(req, "home.html", {"products": products})
 
 def contact(req):
@@ -196,17 +202,43 @@ def favorites(request):
             # request.session.modified = True
 
 
+def More_detail_products(request, id):
+    product = get_object_or_404(Product_Details, id=id)
 
-def More_detail_products(request,id):
-    product= get_object_or_404(Product_Details,id=id)
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            message = request.POST.get('message')
+
+            if message:
+                comment = Comment(
+                    username=request.user,
+                    product=product,
+                    message=message,
+                    comm_date=now()  
+                )
+                comment.save()
+                return redirect(request.path)
+            else:
+                # Optionally, send a message to the template indicating that the message cannot be empty
+                return redirect('home')
+        else:
+            return redirect('login')
+
     image_paths = {}
 
     # Loop to check for up to 4 images
-    for i in range(4):
-        image_path = f'static/image/{product.product_name}/{i}.png'
+    for i in range(1, 5):
+        # Use product.id in case the product name is problematic
+        image_path = f'static/image/{product.id}/{i}.png'
         if os.path.exists(image_path):
-            image_paths[f'image{i+1}'] = f"/static/image/{product.product_name}/{i}.png"
+            image_paths[f'image{i}'] = f"/static/image/{product.id}/{i}.png"
+        elif os.path.exists(f'static/image/{product.id}.png'):
+            image_paths[f'image{i}'] = f"/static/image/{product.id}.png"
+            break
+
+    print(image_paths)
+    comments=Comment.objects.all()
+    comments=list(comments)[::-1]
 
     # Pass both product and images to the template
-    return render(request, "product.html", {"product_d": product, "images": image_paths})
-
+    return render(request, "product.html", {"product": product, "images": image_paths,"comments":comments})

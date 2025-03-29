@@ -1,7 +1,7 @@
 {% extends "root.html" %}
 {% load static %}
 {% block title %}
-    {{ product_d.product_name }}
+    {{ product.product_name }}
 {% endblock title %}
 
 {% block content %}
@@ -31,19 +31,23 @@
 
         <!-- Right Column: Product Information -->
         <div class="col-md-6">
-            <h1 class="product-title">{{ product_d.product_name }}</h1>
-            <p class="text-muted">{{ product_d.p_type  }}</p>
+            <div class="d-flex justify-content-between">
+                <h1 class="product-title">{{ product.product_name }}</h1>
+                <button class="btn-icon btn-wishlist" onclick="addToFav('{{product.id}}')"><i class="fas fa-heart"></i></button>
+                </div>
+            <p class="text-muted">{{ product.p_type  }}</p>
             <p class="availability">
                 Availability: 
-                <span class="{% if product_d.available %}text-success{% else %}text-danger{% endif %}">
-                    {% if product_d.available %}In Stock{% else %}Out of Stock{% endif %}
+                <span class="{% if product.available %}text-success{% else %}text-danger{% endif %}">
+                    {% if product.available %}In Stock{% else %}Out of Stock{% endif %}
                 </span>
             </p>
-            <p class="product-details"><b>{{ product_d.details }}<b></p>
-            {% comment %} <p><strong>Quantity:</strong> {{ product_d.quantity }}</p> {% endcomment %}
-            <p><small class="text-muted">Created on: {{ product_d.created_at }}</small></p>
+
+            <p class="product-details"><b>{{ product.details }}<b></p>
+            {% comment %} <p><strong>Quantity:</strong> {{ product.quantity }}</p> {% endcomment %}
+            <p><small class="text-muted">Created on: {{ product.created_at }}</small></p>
             
-            <h3 class="Price">₹{{ product_d.price }}</h3>
+            <h3 class="Price">₹{{ product.price }}</h3>
             <div class="d-grid gap-2 mt-4">
                 <button class="btn-icon btn-add" onclick="addToCart('{{ product.id }}')"> 
                     <i class="fas fa-plus"></i> ADD TO CART
@@ -57,53 +61,126 @@
     
     <hr class="my-5">
 
-<!-- Customer Reviews Section -->
-<div class="row mt-5">
-    <div class="col-12">
-        <h3 class="mb-4">Customer Reviews</h3>
-
-        {% if comments %}
-            <div class="reviews">
-                {% for comment in comments %}
-                    <div class="review mb-4 p-3 rounded shadow-sm bg-light">
-                        <h5 class="mb-1">{{ comment.username }}</h5>
-                        <small class="text-muted">{{ comment.c_date }}</small>
-                        <p class="mt-2">{{ comment.message }}</p>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="text-center">
-                <p class="text-muted mt-3">No reviews yet. Be the first to review this product!</p>
-                
-            </div>
-        {% endif %}
-    </div>
-</div>
-
-
     <!-- Submit a Review Section -->
-    <div class="col-lg-6 col-md-8 mx-auto mt-5">
-        <div class="review-form bg-light p-4 rounded shadow">
-            <form method="POST" action="#">
-                <h4 class="text-center mb-4">Leave a Review</h4>
-                {% if usr %}
-                    <div class="mb-3">
-                        <label for="username" class="form-label">User Name:</label>
-                        <input type="text" id="username" name="username" value="{{ usr.username }}" class="form-control" readonly>
-                    </div>
-                {% endif %}
-                <div class="mb-3">
-                    <label for="review-message" class="form-label">Your Review:</label>
-                    <textarea id="review-message" name="message" class="form-control" rows="3" placeholder="Enter your review" required></textarea>
+    <div class="col-lg-6 col-md-8 mx-auto mt-3">
+        <div class="review-form bg-var(--bg--color) p-3 rounded shadow-sm">
+            <form method="POST" action="{% url 'products_details' product.id %}">
+                {% csrf_token %}
+                <h4 class="text-center mb-3" style="font-size: 1.2rem;">Leave a Review</h4>
+                <div class="mb-2">
+                    <textarea id="review-message" name="message" class="form-control" rows="2" placeholder="Enter your review" required style="font-size: 0.9rem;"></textarea>
                 </div>
                 <div class="text-center">
-                    <input type="submit" value="Submit Review" class="btn btn-primary">
+                    <input type="submit" value="Submit Review" class="btn btn-primary btn-sm" style="font-size: 0.85rem;">
                 </div>
-            </form>
+            </form>            
+        </div>
+    </div>
+    
+
+<!-- Customer Reviews Section -->
+    <div class="row mt-3">
+        <div class="col-12">
+            <h3 class="mb-3" style="font-size: 1.5rem;">Customer Reviews</h3>
+
+            {% if comments %}
+                <div class="reviews">
+                    {% for comment in comments %}
+                        <div class="review mb-3 p-2 rounded shadow-sm bg-var(--bg-color)">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="mb-0" style="color: var(--link-color); font-size: 1rem;">{{ comment.username }}</h5>
+                                <small class="text-muted" style="font-size: 0.9rem;">{{ comment.comm_date }}</small>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                            <p class="mt-2" style="font-size: 0.9rem;">{{ comment.message }}</p>
+                            <div style="margin-top:10px;">
+                            <p>edit Delete</p>
+                            </div>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <p class="text-muted mt-3" style="font-size: 0.9rem;">No reviews yet. Be the first to review this product!</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
+
+
+
+
+<script>
+    function addToCart(productId) {
+        fetch(`/Add_to_cart/${productId}`, { 
+            method: 'POST', 
+            headers: { 
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(`Item cart status updated! New status: ${data.new_status}`);
+    
+            // Apply the scale-up effect to the cart icon
+            let cartIcon = document.getElementById("cart-icon");
+            if (cartIcon) {
+                cartIcon.classList.add("scale-up");
+    
+                // Remove the scale-up effect after 0.5s
+                setTimeout(() => {
+                    cartIcon.classList.remove("scale-up");
+                }, 500);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    function getCSRFToken() {
+        let cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+            let [name, value] = cookie.trim().split('=');
+            if (name === 'csrftoken') return value;
+        }
+        return null;
+    }
+    
+function addToFav(productId) {
+    fetch(`/add_fav-${productId}`, {  // Ensure correct endpoint
+        method: 'POST',  // Use PUT instead of POST
+        headers: { 
+            'X-CSRFToken': getCSRFToken(),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+
+            
+            console.log("Success:", data.message);
+            window.location.reload();
+        } else {
+            console.error("Error:", data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+</script>
+    
 {% endblock content %}
 
 {% block style %}
@@ -295,3 +372,11 @@
         color:#c0392b !important;
     }
 {% endblock style %}
+
+
+
+{% comment %} 
+ 
+<a href="#" style="color:orange; text-decoration:none;">edit</a>
+                            <a href="#" style="color:red;text-decoration:none;">Delete</a>
+{% endcomment %}
