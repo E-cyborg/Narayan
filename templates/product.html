@@ -93,9 +93,9 @@
                             </div>
                             <div class="d-flex justify-content-between">
                             <p class="mt-2" style="font-size: 0.9rem;">{{ comment.message }}</p>
-                            <div style="margin-top:10px;">
+                            {% comment %} <div style="margin-top:10px;">
                             <p>edit Delete</p>
-                            </div>
+                            </div> {% endcomment %}
                             </div>
 
                         </div>
@@ -279,7 +279,7 @@ function addToFav(productId) {
         height: auto; /* Maintains aspect ratio */
         max-height:450px; /* Set a maximum height */
         min-height:450px;
-        object-fit: cover; /* Crops the image to fit within dimensions */
+        object-fit: unset; /* Crops the image to fit within dimensions */
     }
 
     /* Custom carousel controls */

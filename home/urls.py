@@ -12,4 +12,5 @@ urlpatterns = [
     path('remove_fav-<int:id>',views.remove_fav,name="Remove_fav"),
     path('Favorites',views.favorites,name='Favorites'),
     path('products_details-<int:id>/', views.More_detail_products, name="products_details"),
+    path('Edit_comment',views.comment_edit,name="edit_comm"),
 ]

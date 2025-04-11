@@ -237,8 +237,16 @@ def More_detail_products(request, id):
             break
 
     print(image_paths)
-    comments=Comment.objects.all()
-    comments=list(comments)[::-1]
+    comments=Comment.objects.filter(product=product).first()
+    if comments:
+        comments=list(comments)[::-1]
+    print(comments)
 
     # Pass both product and images to the template
     return render(request, "product.html", {"product": product, "images": image_paths,"comments":comments})
+
+
+
+def comment_edit(request):
+    if request.user.is_authenticated:
+        pass

@@ -316,18 +316,17 @@ p {
     transform: translateX(-50%);
 }
 
-
-/* Product Image */
 .product-image {
-    padding:5px;
-    max-height: 250px;
-    max-width: 100%;
-    height: auto;
-    border-radius: 15px; /* Slightly more rounded corners */
-    margin-top: 0px;   /* Zero out so frame does not interfere with top*/
+    padding: 5px;
+    height: 250px;              /* Fixed height for uniformity */
+    width: 100%;                /* Ensures it spans full width of card */
+    object-fit: cover;          /* Ensures image scales well without stretching */
+    border-radius: 15px;
+    margin-top: 0px;
     margin-bottom: 10px;
-    z-index: 2;             /*Force Product over lower Z-order frame element above product container on Z*/
+    z-index: 2;
 }
+
 
 /* Product Title */
 .product-title {
@@ -457,7 +456,7 @@ p {
             </div>
 
             <div class="owl-carousel-item position-relative">
-                <img class="img-fluid" src="{% static "image/Besan Ke Laddu.png" %}" alt="" style= 'height:600px;'>
+                <img class="img-fluid" src="{% static "image/bassan_ladu.jpg" %}" alt="" style= 'height:600px;'>
                 <div class="text-overlay">
                     <div class="">
                         
